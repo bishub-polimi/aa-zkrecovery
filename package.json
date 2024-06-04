@@ -1,0 +1,13 @@
+{
+  "name": "aa-zkrecovery",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/bishub-polimi/aa-zkrecovery.git",
+  "author": "Marco Esposito <gufett0@tutanota.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@zk-email/circuits": "^6.1.1",
+    "@zk-email/contracts": "^6.1.1",
+    "@zk-email/helpers": "^6.1.1"
+  }
+}
