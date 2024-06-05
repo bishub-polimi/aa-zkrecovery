@@ -1,0 +1,83 @@
+Delivered-To: marco.esp92@gmail.com
+Received: by 2002:adf:ea09:0:b0:34d:aa86:b71e with SMTP id q9csp279471wrm;
+        Wed, 5 Jun 2024 07:04:51 -0700 (PDT)
+X-Received: by 2002:a17:906:1694:b0:a6c:701e:3f7 with SMTP id a640c23a62f3a-a6c701e04bemr56879066b.7.1717596290802;
+        Wed, 05 Jun 2024 07:04:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1717596290; cv=none;
+        d=google.com; s=arc-20160816;
+        b=hk7RvvRP8raEkGhgfVCUuMQanGvkY+K59YSL9/wE1T5zfYdoPQu2scwL2qbUjP6RmM
+         IcRURMtwzqObT8wIlItOC5ZEDxTsFEoU4XJTg2PJrHQDI7UrZ0PNOwVKzxBVOvXKoX8L
+         Dc2Hq+dcmPTosgZEB1/lmqSXRFArcKbUJ1CzEktRcX2UobdaunTyUYSUBH377HmPTx9l
+         lNn0Vu8NvCZCSIiHlLUKueIZv9xtC6Q1VXJvydeYb65tJvFMECbP+rOoqQmngdZPeL0F
+         9U9f9TwxrtoXQzmb0gvsOpGbvCEnsRo0899VRAgOh/NZbQx7OlEYzV/5GjMWoyQs9QFY
+         EIuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=tthRCF7ywDzNtaqcDmGOEIjse7pugnm6iH9vaQ3Vy+E=;
+        fh=0oK4NtzlucKlae4wLC0vEJpzE+bdC16rD8Vc5jHtQHo=;
+        b=F1t54++NqTBednmpZWfMNuq94cxAzVg0Ia01hV5RCYuzsfHuF832PvCoBl1Op1nOQG
+         hfjsfLp6tK8ThB7QKzcYDXx0LWvy/BejuvplPaQ0DzbjlRYQx3ukICffwrxdOLC+R+S1
+         VRSsh8lu9FXhpBrEU309yosLsyH9iGNMuaxrUGWkIkhwW5/GuIgYHnJohhJgFOdbIMQU
+         WlF2AaRgWM6I/9a704g5RyiOHKPN8apo8DNeh2SKjswLsYGddwodKyfRtDiEdOQXDUO+
+         FDyEz+tFID94jU4tqWKtjbdsV3JGEoOGst8JutoDveHWDQ0bABM5zsBO0y2MnksXxIPT
+         MKDQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=ibGJkiw9;
+       spf=pass (google.com: domain of miotest9000@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=miotest9000@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Return-Path: <miotest9000@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id a640c23a62f3a-a68c4004b31sor135122266b.1.2024.06.05.07.04.50
+        for <marco.esp92@gmail.com>
+        (Google Transport Security);
+        Wed, 05 Jun 2024 07:04:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of miotest9000@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=ibGJkiw9;
+       spf=pass (google.com: domain of miotest9000@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=miotest9000@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717596290; x=1718201090; dara=google.com;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=tthRCF7ywDzNtaqcDmGOEIjse7pugnm6iH9vaQ3Vy+E=;
+        b=ibGJkiw9c/w8iTgP9XGILWNrlGVXjAu8V6awwo0Y/MvWRCFEICWLFNOGX753aKWsgg
+         IkOOuvux3BpEfVRjae1h3GtHgnvlyLwxpNwfl8PwwjQeCntBFet/22wTg+2o6Eur5c7X
+         Yf7xyB6VzWlK54B23LPtTQ9C+MxTggHSCp5DvPTplJahac2d+ZaRIQYEQLIgNovxWVYK
+         jBr8CyX6NRxFkfVDiVmiLeRcS6t6BIVENpSx+U6MV0+bf7pp8C+9QNG+cmatBk6TFkQK
+         lcIEe/zvXJPTviStSJjGpikg0rD0CQ+/8X1OldAhIhZFCYbnINFfop5G4WGjooQcuvJm
+         XggQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717596290; x=1718201090;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tthRCF7ywDzNtaqcDmGOEIjse7pugnm6iH9vaQ3Vy+E=;
+        b=sEVQk4MAH+PvZ6RAHOEhstcfpqHAgliJkrH/oExdpBmoOd3POGHjb7fHsb363i2J3X
+         5J2as6oaEQZE+UBSq8Vg3QdkojkFV5xQnVrkGze3GyyHy+7UVDRSskpg3BwH+3n0w74A
+         /succT3razEA1sOi443TWmIJBy3uzwHQGDLv/CxNRU3zWjIe3poAKA5RU/Xjjn43x813
+         QYIsbspdCwA7JJrilgySIj2OWV3VIMOf07Bx/AeIhXYVDMOfKoO/qKn6z71s5hL7xpBI
+         3/0PzR0UuHWxVjDdf/C469GbUdGwaWd139EN2NH9Z0bKf9GGJK1xilYQPSouB+Rt16s/
+         6dbQ==
+X-Gm-Message-State: AOJu0YyO55CdUg4ADstsRyWUiw5S75DiF8xF1sD6oPbgghfsMVBn40Fd P7HaNB4uCkQt8PKUj9iw8tlLIqe63VAdIcvlhzZXrFp4q67PkKMj1SFrv/vgmCzuf+bxJ19LRIa z/+v40mzdVEPq70vYpwO+YW1EGxLSSw==
+X-Google-Smtp-Source: AGHT+IFn2qXnVY+zNg6F1NSknZ/baL6CoILDUhQedkN+gIXVcq3HWiKJxfiGhs9Qh04ufDznuyi4SkkoRrL0vrfHQ4A=
+X-Received: by 2002:a50:8a9d:0:b0:57a:2069:e99 with SMTP id 4fb4d7f45d1cf-57a8bcd2c19mr1683565a12.4.1717596290245; Wed, 05 Jun 2024 07:04:50 -0700 (PDT)
+MIME-Version: 1.0
+From: Mar <miotest9000@gmail.com>
+Date: Wed, 5 Jun 2024 16:04:40 +0200
+Message-ID: <CA+LbGNo6Q59nH+w2-aaWBTssmDJEaJXx5wfJ5CxLt-V5DfmcMQ@mail.gmail.com>
+Subject: prova
+To: "marco.esp92@gmail.com" <marco.esp92@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000bf6c49061a250cb2"
+
+--000000000000bf6c49061a250cb2
+Content-Type: text/plain; charset="UTF-8"
+
+ciao prova
+
+--000000000000bf6c49061a250cb2
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr">ciao prova</div>
+
+--000000000000bf6c49061a250cb2--
