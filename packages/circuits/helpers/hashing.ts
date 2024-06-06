@@ -50,6 +50,7 @@ export async function hashEmailWithSalt(email: string, salt: string): Promise<st
         }
     });
     const finalHash = poseidon([...chunkHashes, ...saltBigIntArray]);
+    console.log("hashing with poseidon done");
 
     return finalHash.toString();
 }

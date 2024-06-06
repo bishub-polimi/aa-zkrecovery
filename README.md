@@ -7,12 +7,14 @@ yarn install
 
 ```
 
+For the following instruction you should check the specific commands in circuits/package.json to set your data
+
 ## Generate the inputs with
 
 ```bash
 # CWD = root folder
 
-npx ts-node packages/circuits/scripts/launch.ts --email-file packages/circuits/tests/test-rawemail.eml --wallet-address "0x........." --plain-email-address latuaemail@gmail.com --salt-string "latuastringasegreta"
+yarn gen-inputs
 ```
 
 ## Compile the circuit(s)
@@ -21,4 +23,12 @@ npx ts-node packages/circuits/scripts/launch.ts --email-file packages/circuits/t
 # CWD = packages/circuits
 
 yarn build
+```
+
+## Compile the circuit(s)
+
+```bash
+# CWD = packages/circuits
+
+yarn gen-witness
 ```

@@ -4,6 +4,7 @@ import { bytesToBigInt, fromHex } from "@zk-email/helpers/dist/binary-format";
 import { generateEmailVerifierInputs } from "@zk-email/helpers/dist/input-generators";
 //import {signMessage, verifySignature, } from "@zk-kit/eddsa-poseidon"
 import { hashEmailWithSalt } from "./hashing"; 
+import * as path from "path";
 
 
 export type IRecoverEmailCircuitInputs = {
@@ -13,10 +14,10 @@ export type IRecoverEmailCircuitInputs = {
     emailHeaderLength: string;
     walletAddress: string;
     salt: string;
-    emailRecoveryBlinded: string;
+    emailRecoveryBlinded: any;
     newPubKey: string[];
-    checkSignature: string[];
-    messageHash: string[];
+    //checkSignature: string[];
+    //messageHash: string[];
     //fromEmailIndex: string;
   };
 
@@ -27,22 +28,14 @@ export async function generateRecoverEmailCircuitInputs(
     saltString: string,
 ): Promise<IRecoverEmailCircuitInputs> { 
 
+    //const pedersen = await buildPedersenHash();
+    //const poseidon = await buildPoseidon();
+    //const eddsa = await buildEddsa();
 
-    const pedersen = await buildPedersenHash();
-    const poseidon = await buildPoseidon();
-    const eddsa = await buildEddsa();
-
-    const keys = JSON.parse(fs.readFileSync("keys.json", "utf8"));
-    const prvKey = Buffer.from(keys.prvKey, "hex");
-    
-    // Assuming pubKey is a single hex string
-    const newPubKey = [
-        keys.pubKey.slice(0, 64),  
-        keys.pubKey.slice(64)   
-    ].map(part => BigInt(`0x${part}`).toString());
-
-    const checkSignature = eddsa.signPedersen(prvKey, Buffer.from("Hello, New Wallet!"));
-    const messageHash = pedersen.hash(Buffer.from("Hello, New Wallet!")).toString();
+    const keys = JSON.parse(fs.readFileSync("./output/keys.json", "utf8"));
+    //const keys = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../output/keys.json"), "utf8"));
+        
+    const newPubKey = keys.pubKey.map((part: string | number | bigint | boolean) => BigInt(part).toString());
 
     const emailVerifierInputs = await generateEmailVerifierInputs(rawEmail, {});
 
@@ -52,7 +45,7 @@ export async function generateRecoverEmailCircuitInputs(
     const walletAddress = bytesToBigInt(fromHex(ethereumAddress)).toString();
 
 
-    // this is for pedersen hashing
+    // Different hashing methods:
     //const saltObj = Buffer.from(saltString, 'utf-8');
     //const emailObj = Buffer.from(plainEmailAddress, 'utf-8');
     //const emailRecoveryBlinded = pedersen.hash(Buffer.concat([emailObj, saltObj])).toString();
@@ -62,17 +55,21 @@ export async function generateRecoverEmailCircuitInputs(
     const concatenatedInput = BigInt(`0x${emailHex}${saltHex}`);
     const emailRecoveryBlinded = poseidon([concatenatedInput]).toString(); */
 
-    const emailRecoveryBlinded = await hashEmailWithSalt(plainEmailAddress, saltString);
+    let emailRecoveryBlinded = await hashEmailWithSalt(plainEmailAddress, saltString);
+    emailRecoveryBlinded = BigInt(emailRecoveryBlinded.replace(/,/g, '')).toString();
 
 
     return {
-        ...emailVerifierInputs,
+        emailHeader: emailVerifierInputs.emailHeader,
+        emailHeaderLength: emailVerifierInputs.emailHeaderLength,
+        pubkey: emailVerifierInputs.pubkey,
+        signature: emailVerifierInputs.signature,
         walletAddress,
         salt: saltString,
         emailRecoveryBlinded,
-        newPubKey: [newPubKey[0].toString(), newPubKey[1].toString()],
-        checkSignature: [checkSignature.R8[0].toString(), checkSignature.R8[1].toString()],
-        messageHash: [messageHash.toString()]
+        newPubKey: [newPubKey[0].toString(), newPubKey[1].toString()]
+        //checkSignature: [checkSignature.R8[0].toString(), checkSignature.R8[1].toString()],
+        //messageHash: [messageHash.toString()]
       };
 
 

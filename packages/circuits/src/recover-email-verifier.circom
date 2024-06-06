@@ -17,8 +17,8 @@ template RecoverEmail(n, k, max_header_bytes, exposeFrom) {
     signal input emailRecoveryBlinded; // h(email || salt)
 
     signal input newPubKey[2]; 
-    signal input checkSignature[2];  
-    signal input messageHash[2]; 
+    //signal input checkSignature[2];  
+    //signal input messageHash[2]; 
 
     signal output pubkey_hash; // "cross-referenced with the public key in our DKIM registry to authenticate the origins of the email."
     //signal output valid;
@@ -87,4 +87,4 @@ component main {
     public [emailRecoveryBlinded,
     newPubKey,
     walletAddress]
-} = RecoverEmail(121, 17, 256, 1);
+} = RecoverEmail(121, 17, 1024, 1);

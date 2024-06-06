@@ -59,6 +59,7 @@ circuits/regexes/subject_regex*
 *_email.txt
 *email_cache.json
 *input.json
+*keys.json
 *email_proof.json
 *.debug
 *.env

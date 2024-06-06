@@ -35,7 +35,7 @@ async function generate() {
         throw new Error("--salt-string is required");
     }
 
-    if (!fs.existsSync("keys.json")) {
+    if (!fs.existsSync("../output/keys.json")) {
         if (!options.silent) {
             log("keys.json not found, generating keys...");
         }
