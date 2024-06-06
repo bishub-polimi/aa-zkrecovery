@@ -1,6 +1,6 @@
 pragma circom 2.0.0;
 
-include "circomlib/circuits/eddsac.circom";  // Include the EdDSA circuit library
+include "circomlib/circuits/eddsa.circom";  
 
 template KeyOwnership() {
 
@@ -11,13 +11,15 @@ template KeyOwnership() {
     signal output valid;  
     signal output pubKey[2];
 
-    component eddsa = EdDSA(1); 
-    eddsa.newPubKey <== newPubKey;
-    eddsa.checkSignature <== checkSignature;
-    eddsa.messageHash <== messageHash;
+    component eddsa = EdDSAVerifier(512); 
+    eddsa.A <== newPubKey;
+    eddsa.R8 <== checkSignature;
+    eddsa.S <== checkSignature; // assuming S is also a part of checkSignature
+    for (var i = 0; i < 512; i++) {
+        eddsa.msg[i] <== messageHash[i];
+    }
 
-    valid <== eddsa.out;
-
+    //valid <== eddsa.out;
 }
 
-component main = KeyOwnership();
+//component main = KeyOwnership();

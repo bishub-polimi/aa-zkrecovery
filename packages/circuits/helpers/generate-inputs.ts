@@ -3,6 +3,7 @@ import * as fs from "fs";
 import { bytesToBigInt, fromHex } from "@zk-email/helpers/dist/binary-format";
 import { generateEmailVerifierInputs } from "@zk-email/helpers/dist/input-generators";
 //import {signMessage, verifySignature, } from "@zk-kit/eddsa-poseidon"
+import { hashEmailWithSalt } from "./hashing"; 
 
 
 export type IRecoverEmailCircuitInputs = {
@@ -51,10 +52,17 @@ export async function generateRecoverEmailCircuitInputs(
     const walletAddress = bytesToBigInt(fromHex(ethereumAddress)).toString();
 
 
-    const saltObj = Buffer.from(saltString, 'utf-8');
-    const emailObj = Buffer.from(plainEmailAddress, 'utf-8');
+    // this is for pedersen hashing
+    //const saltObj = Buffer.from(saltString, 'utf-8');
+    //const emailObj = Buffer.from(plainEmailAddress, 'utf-8');
+    //const emailRecoveryBlinded = pedersen.hash(Buffer.concat([emailObj, saltObj])).toString();
+    /* leave the poseidon code in case we need to switch back
+    const emailHex = Buffer.from(plainEmailAddress, 'utf-8').toString('hex');
+    const saltHex = Buffer.from(saltString, 'utf-8').toString('hex');
+    const concatenatedInput = BigInt(`0x${emailHex}${saltHex}`);
+    const emailRecoveryBlinded = poseidon([concatenatedInput]).toString(); */
 
-    const emailRecoveryBlinded = pedersen.hash(Buffer.concat([emailObj, saltObj])).toString();
+    const emailRecoveryBlinded = await hashEmailWithSalt(plainEmailAddress, saltString);
 
 
     return {
@@ -64,7 +72,7 @@ export async function generateRecoverEmailCircuitInputs(
         emailRecoveryBlinded,
         newPubKey: [newPubKey[0].toString(), newPubKey[1].toString()],
         checkSignature: [checkSignature.R8[0].toString(), checkSignature.R8[1].toString()],
-        messageHash: [messageHash[0].toString(), messageHash[1].toString()]
+        messageHash: [messageHash.toString()]
       };
 
 

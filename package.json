@@ -9,7 +9,8 @@
     "@zk-email/circuits": "^6.1.1",
     "@zk-email/contracts": "^6.1.1",
     "@zk-email/helpers": "^6.1.1",
-    "@zk-kit/eddsa-poseidon": "^1.0.1"
+    "@zk-kit/eddsa-poseidon": "^1.0.1",
+    "circomlib": "^2.0.0"
   },
   "devDependencies": {
     "@types/elliptic": "^6.4.18",
