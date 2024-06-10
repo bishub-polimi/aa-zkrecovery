@@ -1,4 +1,3 @@
-import { buildEddsa } from "circomlibjs";
 import * as fs from 'fs';
 import * as crypto from "crypto";
 import { derivePublicKey } from "@zk-kit/eddsa-poseidon"
@@ -6,8 +5,6 @@ import * as path from "path";
 
 
 export async function generateKeys() {
-
-    const eddsa = await buildEddsa();
     
     // 256 bits based on CSPRNG
     const prvKey = crypto.randomBytes(32); 

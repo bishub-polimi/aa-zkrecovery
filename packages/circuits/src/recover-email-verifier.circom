@@ -2,6 +2,7 @@ pragma circom 2.1.5;
 
 include "@zk-email/circuits/email-verifier.circom";
 include "@zk-email/zk-regex-circom/circuits/common/from_addr_regex.circom";
+include "@zk-email/circuits/utils/regex.circom";
 include "circomlib/circuits/poseidon.circom";  
 //include "./key-ownership.circom";
 
@@ -35,51 +36,43 @@ template RecoverEmail(n, k, max_header_bytes, exposeFrom) {
     // EXTRACT & HASH FROM EMAIL HEADER 
     // reminder: email address can fit within 255 bits if it is 31 characters or fewer in length
     if (exposeFrom) {
+
+        signal input fromEmailIndex;
+
         signal (fromEmailFound, fromEmailReveal[max_header_bytes]) <== FromAddrRegex(max_header_bytes)(emailHeader);
         fromEmailFound === 1;
 
-        component chunkHashes[2];
-        chunkHashes[0] = Poseidon(16);
-        chunkHashes[1] = Poseidon(16);
+        //  Each field element can hold 31 bytes. 
+        // So, the num of field elements for 255 bytes is 255/31 = 9.
+        var maxEmailLength = 255;
+        signal fromEmailAddrPacks[9] <== PackRegexReveal(max_header_bytes, maxEmailLength)(fromEmailReveal, fromEmailIndex);
 
-        for (var i = 0; i < 16; i++) {
-            chunkHashes[0].inputs[i] <== fromEmailReveal[i];
+        /*// log extracted email reveal
+        for (var i = 0; i < 9; i++) {
+            log(fromEmailAddrPacks[i]);
+        } */
+
+        component chunkHashes[1];
+        chunkHashes[0] = Poseidon(9);
+
+        for (var i = 0; i < 9; i++) {
+            chunkHashes[0].inputs[i] <== fromEmailAddrPacks[i];
         }
 
-        for (var i = 0; i < 16; i++) { 
-            if (i + 16 < max_header_bytes) {
-                chunkHashes[1].inputs[i] <== fromEmailReveal[16 + i];
-            } else {
-                chunkHashes[1].inputs[i] <== 0; // ... pad with zeroes
-            }
-        }
-        
-        // taking the outputs of both poseidon hashes.. 
-        signal chunkHashOutputs[2];
+        // taking the outputs of poseidon hashes.. 
+        signal chunkHashOutputs[1];
         chunkHashOutputs[0] <== chunkHashes[0].out;
-        chunkHashOutputs[1] <== chunkHashes[1].out;
+        log(chunkHashOutputs[0]);
 
-        // ...then hashin the hashes together with the salt
-        component finalHash = Poseidon(3);
+        // ...then hashing the hashes together with the salt
+        component finalHash = Poseidon(2);
         finalHash.inputs[0] <== chunkHashOutputs[0];
-        finalHash.inputs[1] <== chunkHashOutputs[1];
-        finalHash.inputs[2] <== salt; 
+        finalHash.inputs[1] <== salt;
+        log(finalHash.out); 
 
         emailHash <== finalHash.out;
         emailHash === emailRecoveryBlinded;
     }
-
-/*
-    // NEW KEY OWNERSHIP
-    component key_ownership = KeyOwnership();
-    key_ownership.newPubKey <== newPubKey;
-    key_ownership.checkSignature <== checkSignature;
-    key_ownership.messageHash <== messageHash; 
-
-    //signal valid;
-    valid <== key_ownership.valid;
-    valid === 1;
-*/
 
 }
 
