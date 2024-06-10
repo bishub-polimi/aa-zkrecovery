@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 import { program } from "commander";
-import { generateRecoverEmailCircuitInputs } from "../helpers/generate-inputs";
-import { generateKeys } from "../helpers/keygen"; 
+import { generateRecoverEmailCircuitInputs } from "../helpers/inputsHandler";
+import { generateKeys } from "../helpers/keyGen"; 
 import { log } from "console";
 
 const OUTPUT_DIR = "./output";

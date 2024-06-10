@@ -4,9 +4,9 @@
   "license": "MIT",
   "scripts": {
     "build": "mkdir -p build && circom src/recover-email-verifier.circom -l ../../node_modules -l ./node_modules --wasm --r1cs --sym -o ./build",
-    "gen-inputs": "npx ts-node ./scripts/launch.ts --email-file ./tests/test-rawemail.eml --wallet-address 0xf640263FF3db796D08557A380b1049355dBa8286 --plain-email-address miotest9000@gmail.com --salt-string 1234",
+    "gen-inputs": "npx ts-node ./scripts/gen-inputs.ts --email-file ./tests/test-rawemail.eml --wallet-address 0xf640263FF3db796D08557A380b1049355dBa8286 --plain-email-address miotest9000@gmail.com --salt-string 1234",
     "gen-witness": "node build/recover-email-verifier_js/generate_witness.js build/recover-email-verifier_js/recover-email-verifier.wasm output/input.json build/recover-email-verifier_js/witness.wtns"
-  },
+    },
   "dependencies": {
     "@zk-email/circuits": "4.0.0",
     "@zk-email/helpers": "4.0.0",
