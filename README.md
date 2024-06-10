@@ -13,7 +13,7 @@ For the following instruction you should check the specific commands in circuits
 
 ```bash
 # CWD = root folder
-
+yarn install
 yarn gen-inputs
 ```
 
@@ -31,4 +31,18 @@ yarn build
 # CWD = packages/circuits
 
 yarn gen-witness
+```
+
+## Generate zKey and Verification Key
+
+```bash
+# CWD = packages/circuits
+
+npx ts-node scripts/dev-setup.ts
+```
+## Generate proof and public inputs
+
+```bash
+# CWD = packages/circuits
+time npx ts-node scripts/gen-proof.ts
 ```
