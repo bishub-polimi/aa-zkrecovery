@@ -7,9 +7,12 @@ yarn install
 
 ```
 
-For the following instruction you should check the specific commands in circuits/package.json to set your data
+Before following the below instructions, make sure to have copied your raw email into a .eml file inside ./packages/circuits/tests
 
-## Generate the inputs with
+
+## Generate the inputs 
+Here you should replace the 
+`--wallet-address` ,  `--plain-email-address` and `--salt-string` inside package.json scripts. 
 
 ```bash
 # CWD = root folder
